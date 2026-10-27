@@ -1,0 +1,4 @@
+pyyaml
+cryptography
+# paramiko   <- paso 2 (SSH)
+# ncclient   <- paso 2 (NETCONF)

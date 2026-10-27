@@ -1,0 +1,251 @@
+{
+  "run_id": "escenario_01_base",
+  "started_at": "2026-10-10T10:00:00",
+  "devices": [
+    {
+      "hostname": "SW1",
+      "platform": "cisco_ios",
+      "role": "core",
+      "status": "ok",
+      "error": null,
+      "collected_at": "2026-10-10T10:00:00",
+      "duration_s": 0.0,
+      "attempts": 1,
+      "version": "15.2(4)E10",
+      "uptime_seconds": 3888000,
+      "interfaces": [
+        {
+          "name": "GigabitEthernet0/1",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed_mbps": 1000,
+          "ipv4": null,
+          "description": "",
+          "in_errors": 120,
+          "out_errors": 0,
+          "in_discards": null,
+          "out_discards": null,
+          "in_bps": 940000000,
+          "out_bps": 310000000
+        },
+        {
+          "name": "GigabitEthernet0/2",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed_mbps": 1000,
+          "ipv4": null,
+          "description": "",
+          "in_errors": 0,
+          "out_errors": 0,
+          "in_discards": null,
+          "out_discards": null,
+          "in_bps": 120000000,
+          "out_bps": 80000000
+        }
+      ],
+      "vlans": [
+        {
+          "id": 10,
+          "name": "DATOS",
+          "ports": []
+        },
+        {
+          "id": 20,
+          "name": "SERVIDORES",
+          "ports": []
+        },
+        {
+          "id": 30,
+          "name": "VOZ",
+          "ports": []
+        }
+      ],
+      "routes": [
+        {
+          "prefix": "0.0.0.0/0",
+          "next_hop": "10.0.10.1",
+          "interface": null,
+          "protocol": "static"
+        },
+        {
+          "prefix": "10.0.10.0/24",
+          "next_hop": null,
+          "interface": "Vlan10",
+          "protocol": "connected"
+        }
+      ],
+      "neighbors": [
+        {
+          "local_interface": "GigabitEthernet0/1",
+          "remote_device": "SW2",
+          "remote_port": "GigabitEthernet0/24"
+        },
+        {
+          "local_interface": "GigabitEthernet0/2",
+          "remote_device": "R1",
+          "remote_port": "ge-0/0/0"
+        }
+      ],
+      "config": null,
+      "limitations": [],
+      "raw": {}
+    },
+    {
+      "hostname": "SW2",
+      "platform": "cisco_ios",
+      "role": "access",
+      "status": "ok",
+      "error": null,
+      "collected_at": "2026-10-10T10:00:00",
+      "duration_s": 0.0,
+      "attempts": 1,
+      "version": "12.2(55)SE",
+      "uptime_seconds": 2592000,
+      "interfaces": [
+        {
+          "name": "GigabitEthernet0/1",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed_mbps": 1000,
+          "ipv4": null,
+          "description": "",
+          "in_errors": 0,
+          "out_errors": 0,
+          "in_discards": null,
+          "out_discards": null,
+          "in_bps": 200000000,
+          "out_bps": 150000000
+        }
+      ],
+      "vlans": [
+        {
+          "id": 10,
+          "name": "DATOS",
+          "ports": []
+        },
+        {
+          "id": 20,
+          "name": "SERVERS",
+          "ports": []
+        },
+        {
+          "id": 30,
+          "name": "VOZ",
+          "ports": []
+        }
+      ],
+      "routes": [
+        {
+          "prefix": "10.0.10.0/24",
+          "next_hop": null,
+          "interface": "Vlan10",
+          "protocol": "connected"
+        }
+      ],
+      "neighbors": [
+        {
+          "local_interface": "GigabitEthernet0/1",
+          "remote_device": "SW1",
+          "remote_port": "GigabitEthernet0/1"
+        }
+      ],
+      "config": null,
+      "limitations": [],
+      "raw": {}
+    },
+    {
+      "hostname": "R1",
+      "platform": "juniper_junos",
+      "role": "router",
+      "status": "ok",
+      "error": null,
+      "collected_at": "2026-10-10T10:00:00",
+      "duration_s": 0.0,
+      "attempts": 1,
+      "version": "21.4R3",
+      "uptime_seconds": 864000,
+      "interfaces": [
+        {
+          "name": "ge-0/0/0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed_mbps": 1000,
+          "ipv4": null,
+          "description": "",
+          "in_errors": 0,
+          "out_errors": 0,
+          "in_discards": null,
+          "out_discards": null,
+          "in_bps": 80000000,
+          "out_bps": 60000000
+        }
+      ],
+      "vlans": [],
+      "routes": [
+        {
+          "prefix": "0.0.0.0/0",
+          "next_hop": "10.0.10.1",
+          "interface": null,
+          "protocol": "static"
+        }
+      ],
+      "neighbors": [
+        {
+          "local_interface": "ge-0/0/0",
+          "remote_device": "SW1",
+          "remote_port": "GigabitEthernet0/2"
+        }
+      ],
+      "config": null,
+      "limitations": [],
+      "raw": {}
+    },
+    {
+      "hostname": "R2",
+      "platform": "juniper_junos",
+      "role": "router",
+      "status": "ok",
+      "error": null,
+      "collected_at": "2026-10-10T10:00:00",
+      "duration_s": 0.0,
+      "attempts": 1,
+      "version": "20.2R1",
+      "uptime_seconds": 10800,
+      "interfaces": [
+        {
+          "name": "ge-0/0/0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed_mbps": 1000,
+          "ipv4": null,
+          "description": "",
+          "in_errors": 0,
+          "out_errors": 0,
+          "in_discards": null,
+          "out_discards": null,
+          "in_bps": 10000000,
+          "out_bps": 10000000
+        }
+      ],
+      "vlans": [],
+      "routes": [
+        {
+          "prefix": "0.0.0.0/0",
+          "next_hop": "10.0.10.1",
+          "interface": null,
+          "protocol": "static"
+        }
+      ],
+      "neighbors": [
+        {
+          "local_interface": "ge-0/0/0",
+          "remote_device": "R1",
+          "remote_port": "ge-0/0/1"
+        }
+      ],
+      "config": null,
+      "limitations": [],
+      "raw": {}
+    }
+  ]
+}

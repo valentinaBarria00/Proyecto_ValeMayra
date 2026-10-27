@@ -1,0 +1,66 @@
+# Inventario de equipos AUTORIZADOS para auditar (Wolf: "lista de objetivos autorizados").
+# REGLA DE SEGURIDAD: aqui NUNCA van contrasenas. Solo la referencia (cred_ref),
+# que apunta a variables de entorno LAB_USER / LAB_PASS definidas en el archivo .env
+
+# --- Parametros de ejecucion de la herramienta ---
+audit:
+  timeout_seconds: 10     # tiempo maximo de espera por equipo
+  retries: 1              # reintentos SOLO ante timeout (nunca ante error de clave)
+  output_dir: output      # carpeta donde se guardan reportes
+  runs_dir: runs          # carpeta donde se guardan las ejecuciones (para comparar)
+
+# --- Seguridad de accesos (PASO 5) ---
+security:
+  max_auth_failures: 3    # fallos de clave seguidos antes de bloquear el equipo
+  lockout_minutes: 15     # minutos que el equipo queda bloqueado
+  logs_dir: logs          # carpeta del registro de accesos
+
+# --- Umbrales que usara el motor de reglas (paso 3) ---
+policy:
+  util_warn_pct: 70       # utilizacion >= 70%  -> hallazgo medio
+  util_crit_pct: 90       # utilizacion >= 90%  -> hallazgo alto
+  errors_per_hour: 50     # tasa de errores permitida (se calcula entre 2 ejecuciones)
+  min_uptime_hours: 24    # menos que esto = reinicio reciente
+  approved_versions:      # versiones de software aprobadas por plataforma
+    cisco_ios: ["15.2(4)E10"]
+    juniper_junos: ["21.4R3"]
+
+# --- Dispositivos (requisito Wolf: auditar al menos 4, con 2 plataformas) ---
+devices:
+  - hostname: SW1
+    host: 192.0.2.11               # IP de laboratorio (rango de documentacion)
+    platform: cisco_ios            # define que parser/adaptador se usa
+    transport: ssh                 # ssh | snmp | netconf | mock
+    role: core
+    cred_ref: LAB                  # -> LAB_USER y LAB_PASS en .env
+    expected_up: [GigabitEthernet0/1, GigabitEthernet0/2]   # interfaces que DEBEN estar up
+    expected_neighbors: [SW2, R1]                           # vecinos que DEBEN existir
+    expected_vlans: [10, 20, 30]                            # VLAN que DEBEN existir en el equipo
+
+  - hostname: SW2
+    host: 192.0.2.12
+    platform: cisco_ios
+    transport: ssh
+    role: access
+    cred_ref: LAB
+    expected_up: [GigabitEthernet0/1]
+    expected_neighbors: [SW1]
+    expected_vlans: [10, 20, 30]
+
+  - hostname: R1
+    host: 192.0.2.21
+    platform: juniper_junos
+    transport: netconf             # Junos soporta NETCONF de forma nativa
+    role: router
+    cred_ref: LAB
+    expected_up: [ge-0/0/0]
+    expected_neighbors: [SW1]
+
+  - hostname: R2
+    host: 192.0.2.22
+    platform: juniper_junos
+    transport: netconf
+    role: router
+    cred_ref: LAB
+    expected_up: [ge-0/0/0]
+    expected_neighbors: [R1]
